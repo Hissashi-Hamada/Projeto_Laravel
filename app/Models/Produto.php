@@ -11,6 +11,6 @@ class Produto extends Model
         'descricao',
         'valor',
         'quantidade',
-        'status'
+        'status',
     ];
 }

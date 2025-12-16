@@ -9,10 +9,12 @@ class Cliente extends Model
     protected $fillable = [
         'nome',
         'cpf',
-        'data_nascimento' => 'date',
+        'data_nascimento',
         'telefone',
         'email',
     ];
 
+    protected $casts = [
+        'data_nascimento' => 'date',
+    ];
 }
-

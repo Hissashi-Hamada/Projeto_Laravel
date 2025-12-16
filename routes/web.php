@@ -5,7 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('layouts.app');
 });
 
 // Rotas para Clientes
@@ -15,5 +15,5 @@ Route::resource('clientes', ClienteController::class);
 Route::resource('produtos', ProdutoController::class);
 
 // Rotas de formulários (mantidas para compatibilidade)
-Route::view('/form/cliente', 'form_cliente');
-Route::view('/form/produto', 'form_produto');
+Route::resource('clientes', ClienteController::class);
+Route::resource('produtos', ProdutoController::class);

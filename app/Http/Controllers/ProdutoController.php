@@ -21,28 +21,31 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nome' => 'required',
-            'descricao' => 'nullable',
+            'nome' => 'required|string|max:255',
+            'descricao' => 'nullable|string',
             'valor' => 'required|numeric|min:0',
             'quantidade' => 'required|integer|min:0',
-            'status' => 'boolean'
+            'status' => 'required|boolean',
         ]);
 
         Produto::create($validated);
 
-        return redirect()->route('produtos.index')->with('success', 'Produto cadastrado com sucesso!');
+        return redirect()
+            ->route('produtos.index')
+            ->with('success', 'Produto cadastrado com sucesso!');
     }
+
 
     public function show($id)
     {
         $produto = Produto::findOrFail($id);
-        return view('produtos.show', compact('produto'));
+        return view('produtos.index', compact('produto'));
     }
 
     public function edit($id)
     {
         $produto = Produto::findOrFail($id);
-        return view('produtos.edit', compact('produto'));
+        return view('produtos.create', compact('produto'));
     }
 
     public function update(Request $request, $id)
