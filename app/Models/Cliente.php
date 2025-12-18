@@ -13,7 +13,6 @@ class Cliente extends Model
         'telefone',
         'email',
     ];
-
     protected $casts = [
         'data_nascimento' => 'date',
     ];

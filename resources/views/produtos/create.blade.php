@@ -1,100 +1,80 @@
 @extends('layouts.app')
 
+@section('title', 'Novo Produto')
+
 @section('content')
-<h2 class="mb-4">Novo Produto</h2>
+
+<h2>Novo Produto</h2>
 
 <form action="{{ route('produtos.store') }}" method="POST">
     @csrf
 
-    {{-- Nome --}}
-    <div class="mb-3">
-        <label for="nome" class="form-label">Nome do Produto</label>
-        <input 
-            type="text" 
-            name="nome" 
-            id="nome"
-            class="form-control @error('nome') is-invalid @enderror"
-            value="{{ old('nome') }}"
-            required
-        >
-        @error('nome')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+    <div class="form-grid">
 
-    {{-- Descrição --}}
-    <div class="mb-3">
-        <label for="descricao" class="form-label">Descrição</label>
-       <textarea 
-            name="descricao" 
-            id="descricao"
-            class="form-control"
-            rows="3"
-        >{{ old('descricao') }}</textarea>
-        @error('descricao')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+        {{-- Nome --}}
+        <div class="form-group full">
+            <label for="nome">Nome do Produto</label>
+            <input
+                type="text"
+                name="nome"
+                id="nome"
+                value="{{ old('nome') }}"
+                required
+            >
+        </div>
 
-    {{-- Preço --}}
-    <div class="mb-3">
-        <label for="preco" class="form-label">Preço (R$)</label>
-        <input 
-            type="number" 
-            name="valor" 
-            id="valor"
-            step="0.01"
-            class="form-control"
-            value="{{ old('valor') }}"
-            required
-        >
-        @error('preco')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+        {{-- Descrição --}}
+        <div class="form-group full">
+            <label for="descricao">Descrição</label>
+            <textarea
+                name="descricao"
+                id="descricao"
+                rows="3"
+                maxlength="50"
+            >{{ old('descricao') }}</textarea>
+        </div>
 
-    {{-- Quantidade --}}
-    <div class="mb-3">
-        <label for="quantidade" class="form-label">Quantidade</label>
-        <input 
-            type="number" 
-            name="quantidade" 
-            id="quantidade"
-            class="form-control @error('quantidade') is-invalid @enderror"
-            value="{{ old('quantidade') }}"
-            required
-        >
-        @error('quantidade')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+        {{-- Preço --}}
+        <div class="form-group">
+            <label for="valor">Preço (R$)</label>
+            <input
+                type="number"
+                name="valor"
+                id="valor"
+                step="0.01"
+                value="{{ old('valor') }}"
+                required
+            >
+        </div>
 
-    {{-- Status --}}
-    <div class="mb-4">
-        <label for="status" class="form-label">Status</label>
-        <select 
-            name="status" 
-            id="status"
-            class="form-select @error('status') is-invalid @enderror"
-            required
-        >
-            <option value="1">Ativo</option>
-            <option value="0">Inativo</option>
-        </select>
-        @error('status')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
+        {{-- Quantidade --}}
+        <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input
+                type="number"
+                name="quantidade"
+                id="quantidade"
+                value="{{ old('quantidade') }}"
+                required
+            >
+        </div>
 
-    {{-- Botões --}}
-    <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-success">
-            💾 Salvar
-        </button>
+        {{-- Status --}}
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status" id="status" required>
+                <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Ativo</option>
+                <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Inativo</option>
+            </select>
+        </div>
 
-        <a href="{{ route('produtos.index') }}" class="btn btn-secondary">
-            ⬅ Voltar
-        </a>
+        {{-- Botões --}}
+        <div class="full actions">
+            <button type="submit" class="edit">💾 Salvar</button>
+            <button class="btn btn-" onclick="window.location='{{ route('produtos.index') }}'">Voltar</button>
+        </div>
+
     </div>
 </form>
+
 @endsection
