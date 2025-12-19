@@ -37,6 +37,7 @@
             <input
                 type="text"
                 name="cpf"
+                maxlength="14"
                 value="{{ old('cpf', $cliente->cpf) }}"
             >
         </div>
@@ -55,7 +56,7 @@
             <input
                 type="date"
                 name="data_nascimento"
-                value="{{ old('data_nascimento', optional($cliente->data_nascimento)->format('Y-m-d')) }}"
+                value="{{ old('data_nascimento', $cliente->data_nascimento->format('Y-m-d')) }}"
             >
         </div>
 
@@ -64,6 +65,7 @@
             <input
                 type="text"
                 name="telefone"
+                maxlength="15"
                 value="{{ old('telefone', $cliente->telefone) }}"
             >
         </div>

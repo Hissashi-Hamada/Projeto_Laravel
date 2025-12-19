@@ -13,7 +13,7 @@
             <th class="text-center">Nome</th>
             <th class="text-center">CPF</th>
             <th class="text-center">Email</th>
-            <th width="175">Data de Nascimento</th>
+            <th width="155">Data de Nascimento</th>
             <th class="text-center">Telefone</th>
             <th class="text-center" width="180">Ações</th>
         </tr>
@@ -25,7 +25,7 @@
             <td>{{ $cliente->nome }}</td>
             <td>{{ $cliente->cpf }}</td>
             <td>{{ $cliente->email }}</td>
-            <td>{{ $cliente->data_nascimento}}</td>
+            <td>{{ $cliente->data_nascimento ? \Carbon\Carbon::parse($cliente->data_nascimento)->format('d/m/Y') : '' }}</td>
             <td>{{ $cliente->telefone}}</td>
             <td>
 

@@ -16,7 +16,7 @@
 
         <div class="form-group">
             <label>CPF</label>
-            <input type="text" name="cpf" required>
+            <input type="text" name="cpf" maxlength="14" required>
         </div>
         
         <div class="form-group">
@@ -25,16 +25,16 @@
         </div>
         <div class="form-group">
             <label>Telefone</label>
-            <input type="text" name="telefone" required>
+            <input type="text" name="telefone" maxlength="15" required>
         </div>
 
         <div class="form-group">
             <label>Data de Nascimento</label>
-            <input type="date" name="data_nascimento" required>
+            <input type="date" name="data_nascimento">
         </div>
 
-        <div class="full">
-            <button type="submit">Salvar Cliente</button>
+        <div class="full actions">
+            <button type="submit" class="edit">Salvar Cliente</button>
             <button class="btn btn-" onclick="window.location='{{ route('clientes.index') }}'">Voltar</button>
         </div>
     </div>

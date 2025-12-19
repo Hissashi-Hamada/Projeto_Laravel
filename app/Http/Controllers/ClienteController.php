@@ -23,6 +23,9 @@ class ClienteController extends Controller
         'telefone' => 'nullable|string|max:20',
         ]);
     
+        $validated['cpf'] = $this->formatCpf($validated['cpf']);
+        $validated['telefone'] = $this->formatTelefone($validated['telefone']);
+    
         Cliente::create($validated);
     
         return redirect()->back()->with('success', 'Cliente cadastrado com sucesso!');
@@ -58,6 +61,9 @@ class ClienteController extends Controller
             'telefone' => 'nullable|string|max:20',
         ]);
 
+        $validated['cpf'] = $this->formatCpf($validated['cpf']);
+        $validated['telefone'] = $this->formatTelefone($validated['telefone']);
+
         $cliente->update($validated);
 
         return redirect()->route('clientes.index')
@@ -68,6 +74,27 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::findOrFail($id);
         $cliente->delete();
-        return response()->json(['message' => 'Cliente removido']);
+        return redirect()->route('clientes.index')->with('success', 'Cliente removido com sucesso!');
+    }
+    
+    private function formatCpf($cpf)
+    {
+        $cpf = preg_replace('/\D/', '', $cpf);
+        $cpf = substr($cpf, 0, 11);
+        if (strlen($cpf) <= 3) return $cpf;
+        if (strlen($cpf) <= 6) return preg_replace('/(\d{3})(\d{1,3})/', '$1.$2', $cpf);
+        if (strlen($cpf) <= 9) return preg_replace('/(\d{3})(\d{3})(\d{1,3})/', '$1.$2.$3', $cpf);
+        return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{1,2})/', '$1.$2.$3-$4', $cpf);
+    }
+
+    private function formatTelefone($telefone)
+    {
+        if (!$telefone) return $telefone;
+        $telefone = preg_replace('/\D/', '', $telefone);
+        $telefone = substr($telefone, 0, 11);
+        if (strlen($telefone) <= 2) return $telefone;
+        if (strlen($telefone) <= 6) return preg_replace('/(\d{2})(\d{1,4})/', '($1) $2', $telefone);
+        if (strlen($telefone) <= 10) return preg_replace('/(\d{2})(\d{4})(\d{1,4})/', '($1) $2-$3', $telefone);
+        return preg_replace('/(\d{2})(\d{5})(\d{1,4})/', '($1) $2-$3', $telefone);
     }
 }
