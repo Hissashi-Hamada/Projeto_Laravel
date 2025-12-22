@@ -33,10 +33,24 @@
             <input type="date" name="data_nascimento">
         </div>
 
-        <div class="full actions">
-            <button type="submit" class="edit">Salvar Cliente</button>
+        <div class="full actions"> 
+            <button type="submit" class="edit" onclick="return confirmSaveClient()">Salvar Cliente</button>
             <button class="btn btn-" onclick="window.location='{{ route('clientes.index') }}'">Voltar</button>
         </div>
+        
+        <script>
+        function confirmSaveClient() {
+            // Pergunta se o usuário quer realmente salvar
+            let confirmar = confirm("Deseja realmente salvar este cliente?");
+            if(confirmar){
+                alert("Cliente salvo com sucesso!");
+                return true; // permite o submit do formulário
+            } else {
+                return false; // cancela o envio
+            }
+        }
+        </script>
+
     </div>
 </form>
 @endsection

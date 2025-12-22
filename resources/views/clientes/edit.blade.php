@@ -56,7 +56,7 @@
             <input
                 type="date"
                 name="data_nascimento"
-                value="{{ old('data_nascimento', $cliente->data_nascimento->format('Y-m-d')) }}"
+                value="{{ old('data_nascimento', $cliente->data_nascimento ? $cliente->data_nascimento->format('Y-m-d') : '') }}"
             >
         </div>
 

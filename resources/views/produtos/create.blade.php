@@ -70,9 +70,22 @@
 
         {{-- Botões --}}
         <div class="full actions">
-            <button type="submit" class="edit">💾 Salvar</button>
+            <button type="submit" class="edit" onclick="return confirmSave()">Salvar Produto</button>
             <button class="btn btn-" onclick="window.location='{{ route('produtos.index') }}'">Voltar</button>
-        </div>
+        </div>      
+
+        <script>
+        function confirmSave() {
+            // Mostra um alerta de confirmação
+            let confirmar = confirm("Deseja realmente salvar este produto?");
+            if(confirmar){
+                alert("Produto salvo com sucesso!");
+                return true; // permite o submit
+            } else {
+                return false; // cancela o submit
+            }
+        }
+        </script>
 
     </div>
 </form>

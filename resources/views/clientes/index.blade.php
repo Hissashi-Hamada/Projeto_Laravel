@@ -36,8 +36,16 @@
                 <form action="{{ route('clientes.destroy', $cliente) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger btn-sm">Excluir</button>
+                    <button class="btn btn-danger btn-sm" type="submit" onclick="return confirmarExclusao()">Excluir</button>
                 </form>
+
+                <script>
+                function confirmarExclusao() {
+                    // Mostra o alerta de confirmação
+                    return confirm('Tem certeza que deseja excluir este Cliente?');
+                    // Retorna true para enviar o formulário, false para cancelar
+                }
+                </script>
             </td>
         </tr>
         @endforeach
