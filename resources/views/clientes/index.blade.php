@@ -1,46 +1,76 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="d-flex justify-content-between mb-3">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Clientes</h2>
-    <button class="btn btn-primary" onclick="window.location='{{ route('clientes.create') }}'">Adicionar Cliente</button>
+
+    <a href="{{ route('clientes.create') }}" class="btn btn-primary">
+        Adicionar Cliente
+    </a>
 </div>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th class="text-center">ID</th>
-            <th class="text-center">Nome</th>
-            <th class="text-center">CPF</th>
-            <th class="text-center">Email</th>
-            <th width="155">Data de Nascimento</th>
-            <th class="text-center">Telefone</th>
-            <th class="text-center" width="180">Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($clientes as $cliente)
-        <tr>
-            <td>{{ $cliente->id }}</td>
-            <td>{{ $cliente->nome }}</td>
-            <td>{{ $cliente->cpf }}</td>
-            <td>{{ $cliente->email }}</td>
-            <td>{{ $cliente->data_nascimento ? \Carbon\Carbon::parse($cliente->data_nascimento)->format('d/m/Y') : '' }}</td>
-            <td>{{ $cliente->telefone}}</td>
-            <td>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
 
-                <button type="button" class="btn btn-warning btn-sm" onclick="window.location='{{ route('clientes.edit', $cliente) }}'">
-                    Editar
-                </button>
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 60px;">ID</th>
+                <th>Nome</th>
+                <th class="text-center">CPF</th>
+                <th>Email</th>
+                <th class="text-center" style="width: 150px;">Data de Nascimento</th>
+                <th class="text-center">Telefone</th>
+                <th class="text-center" style="width: 160px;">Ações</th>
+            </tr>
+        </thead>
 
-                <form action="{{ route('clientes.destroy', $cliente) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm" type="submit" onclick="return confirmarExclusao()">Excluir</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+        <tbody>
+            @foreach ($clientes as $cliente)
+                <tr>
+                    <td class="text-center">{{ $cliente->id }}</td>
+
+                    <td>{{ $cliente->nome }}</td>
+
+                    <td class="text-center">{{ $cliente->cpf }}</td>
+
+                    <td style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        {{ $cliente->email }}
+                    </td>
+
+                    <td class="text-center">
+                        {{ $cliente->data_nascimento?->format('d/m/Y') }}
+                    </td>
+
+                    <td class="text-center">{{ $cliente->telefone }}</td>
+
+                    <td>
+                        <div class="d-flex justify-content-center gap-2">
+
+                            <a href="{{ route('clientes.edit', $cliente->id) }}"
+                               class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+
+                            <form action="{{ route('clientes.destroy', $cliente->id) }}"
+                                  method="POST">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Deseja excluir este cliente?')">
+                                    Excluir
+                                </button>
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+
+    </table>
+</div>
+
 @endsection

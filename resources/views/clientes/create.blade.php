@@ -34,9 +34,15 @@
         </div>
 
         <div class="full actions"> 
-            <button type="submit" onclick="return confirm('Deseja salvar este cliente?')">Salvar</button>
+            <button
+                type="submit"
+                class="btn btn-primary"
+                onclick="return confirm('Deseja salvar este cliente?')">
+                Salvar
+            </button>
             <button
                 type="button"
+                class ="btn btn-secondary"
                 onclick="window.location='{{ route('clientes.index') }}'">
                 Voltar
             </button>
