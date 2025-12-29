@@ -2,8 +2,20 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+
     <title>@yield('title', 'CRUD Laravel')</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{-- BOOTSTRAP --}}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous"
+    >
+
+    {{-- CSS GLOBAL --}}
     <style>
         * {
             box-sizing: border-box;
@@ -15,6 +27,7 @@
             background: #f1f5f9;
         }
 
+        /* HEADER */
         header {
             background: #0f172a;
             color: #fff;
@@ -44,6 +57,7 @@
             border-color: #2563eb;
         }
 
+        /* CONTEÚDO */
         main {
             max-width: 900px;
             margin: 40px auto;
@@ -58,6 +72,7 @@
             color: #0f172a;
         }
 
+        /* FORMULÁRIOS */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -69,29 +84,37 @@
             flex-direction: column;
         }
 
+        .full {
+            grid-column: 1 / -1;
+        }
+
         label {
             font-size: 14px;
             margin-bottom: 6px;
             color: #334155;
         }
 
-        input {
+        input,
+        textarea,
+        select {
             padding: 12px;
             border-radius: 6px;
             border: 1px solid #cbd5e1;
             font-size: 14px;
         }
 
-        input:focus {
+        input:focus,
+        textarea:focus,
+        select:focus {
             outline: none;
             border-color: #2563eb;
         }
 
-        .full {
-            grid-column: 1 / -1;
+        textarea {
+            resize: vertical;
         }
-        
 
+        /* TABELAS */
         .table-container {
             overflow-x: auto;
         }
@@ -126,6 +149,7 @@
             background: #f1f5f9;
         }
 
+        /* AÇÕES */
         .actions {
             display: flex;
             gap: 8px;
@@ -136,9 +160,9 @@
             padding: 6px 10px;
             border-radius: 6px;
             font-size: 13px;
-            text-decoration: none;
             border: none;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .actions .edit {
@@ -150,40 +174,41 @@
             background: #dc2626;
             color: #fff;
         }
-
-        textarea,
-            select {
-                padding: 12px;
-                border-radius: 6px;
-                border: 1px solid #cbd5e1;
-                font-size: 14px;
-                resize: vertical;
-            }
-
-            textarea:focus,
-            select:focus {
-                outline: none;
-                border-color: #2563eb;
-            }      
     </style>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-@vite(['resources/js/app.js', 'resources/css/app.css'])
+
+    {{-- VITE --}}
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
+
+    {{-- STYLES EXTRAS --}}
+    @stack('styles')
 </head>
+
 <body>
 
-<header>
-    <h1 class="titulo">CRUD Laravel</h1>
-    <nav>
-        <a href="{{ route('clientes.index') }}">Clientes</a>
-        <a href="{{ route('produtos.index') }}">Produtos</a>
-    </nav>
-</header>
+    {{-- HEADER --}}
+    <header>
+        <h1>CRUD Laravel</h1>
 
-<main>
-    @yield('content')
-</main>
+        <nav>
+            <a href="{{ route('clientes.index') }}">Clientes</a>
+            <a href="{{ route('produtos.index') }}">Produtos</a>
+        </nav>
+    </header>
+
+    {{-- CONTEÚDO --}}
+    <main>
+        @yield('content')
+    </main>
+
+    {{-- BOOTSTRAP JS --}}
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"
+    ></script>
+
+    {{-- SCRIPTS EXTRAS --}}
+    @stack('scripts')
 
 </body>
-</script>
 </html>
