@@ -78,9 +78,15 @@
                 type="text"
                 name="telefone"
                 maxlength="15"
-                class="form-control"
+                class="form-control @error('telefone') is-invalid @enderror"
                 value="{{ old('telefone') }}"
             >
+
+            @error('telefone')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -88,10 +94,16 @@
             <input
                 type="text"
                 name="data_nascimento"
-                class="form-control"
+                class="form-control @error('data_nascimento') is-invalid @enderror"
                 placeholder="dd/mm/aaaa"
                 value="{{ old('data_nascimento') }}"
             >
+
+            @error('data_nascimento')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
         <div class="full actions mt-3">

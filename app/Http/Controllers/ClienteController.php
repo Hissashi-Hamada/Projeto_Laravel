@@ -73,8 +73,8 @@ class ClienteController extends Controller
             'nome' => 'required|string|max:255',
             'cpf' => 'required|string|max:20|unique:clientes,cpf,' . $id,
             'email' => 'required|email|unique:clientes,email,' . $id,
-            'data_nascimento' => 'nullable|string',
-            'telefone' => 'nullable|string|max:20',
+            'data_nascimento' => 'required|string',
+            'telefone' => 'required|string|max:20',
         ]);
     }
 

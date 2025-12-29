@@ -28,8 +28,15 @@
             <input
                 type="text"
                 name="nome"
+                class="form-control @error('nome') is-invalid @enderror"
                 value="{{ old('nome', $cliente->nome) }}"
             >
+
+            @error('nome')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -38,8 +45,15 @@
                 type="text"
                 name="cpf"
                 maxlength="14"
+                class="form-control @error('cpf') is-invalid @enderror"
                 value="{{ old('cpf', $cliente->cpf) }}"
             >
+
+            @error('cpf')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -47,8 +61,15 @@
             <input
                 type="email"
                 name="email"
+                class="form-control @error('email') is-invalid @enderror"
                 value="{{ old('email', $cliente->email) }}"
             >
+
+            @error('email')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -56,8 +77,15 @@
             <input
                 type="date"
                 name="data_nascimento"
+                class="form-control @error('data_nascimento') is-invalid @enderror"
                 value="{{ old('data_nascimento', $cliente->data_nascimento ? $cliente->data_nascimento->format('Y-m-d') : '') }}"
             >
+
+            @error('data_nascimento')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
         <div class="form-group full">
@@ -66,8 +94,15 @@
                 type="text"
                 name="telefone"
                 maxlength="15"
+                class="form-control @error('telefone') is-invalid @enderror"
                 value="{{ old('telefone', $cliente->telefone) }}"
             >
+
+            @error('telefone')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
 
     </div>
