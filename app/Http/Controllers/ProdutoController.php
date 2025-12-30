@@ -19,21 +19,22 @@ class ProdutoController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'valor' => 'required|numeric|min:0',
-            'quantidade' => 'required|integer|min:0',
-            'status' => 'required|boolean',
-        ]);
+{
+    $validated = $request->validate([
+        'nome' => 'required|string|max:255',
+        'descricao' => 'nullable|string',
+        'valor' => 'required|numeric|min:0',
+        'quantidade' => 'required|integer|min:0',
+        'status' => 'required|boolean',
+    ]);
 
-        Produto::create($validated);
+    Produto::create($validated);
 
-        return redirect()
-            ->route('produtos.index')
-            ->with('success', 'Produto cadastrado com sucesso!');
-    }
+    return redirect()
+        ->route('produtos.index')
+        ->with('success', 'Produto cadastrado com sucesso!');
+}
+
 
 
     public function show($id)

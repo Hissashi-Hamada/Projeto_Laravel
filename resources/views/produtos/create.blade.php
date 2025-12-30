@@ -87,7 +87,6 @@
                 <button
                     type="submit"
                     class="btn btn-success"
-                    onclick="return confirm('Deseja adicionar este produto?')"
                 >
                     Salvar
                 </button>

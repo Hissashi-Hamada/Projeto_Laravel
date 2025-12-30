@@ -80,7 +80,6 @@
                                     <button
                                         type="submit"
                                         class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Tem certeza que deseja excluir este produto?')"
                                     >
                                         Excluir
                                     </button>

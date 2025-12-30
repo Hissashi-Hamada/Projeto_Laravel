@@ -91,7 +91,6 @@
                                     <button
                                         type="submit"
                                         class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Deseja excluir este cliente?')"
                                     >
                                         Excluir
                                     </button>

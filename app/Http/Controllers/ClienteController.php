@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class ClienteController extends Controller
 {
@@ -69,13 +68,21 @@ class ClienteController extends Controller
 
     private function validateRequest(Request $request, $id = null): array
     {
-        return $request->validate([
-            'nome' => 'required|string|max:255',
-            'cpf' => 'required|string|max:20|unique:clientes,cpf,' . $id,
-            'email' => 'required|email|unique:clientes,email,' . $id,
-            'data_nascimento' => 'required|string',
-            'telefone' => 'required|string|max:20',
-        ]);
+        return $request->validate(
+            [
+                'nome' => 'required|string|max:255',
+                'cpf' => 'required|string|max:20|unique:clientes,cpf,' . $id,
+                'email' => 'required|email|unique:clientes,email,' . $id,
+                'telefone' => 'required|string|max:20',
+
+                // CORRETO PARA <input type="date">
+                'data_nascimento' => 'required|date',
+            ],
+            [
+                'data_nascimento.required' => 'A data de nascimento é obrigatória.',
+                'data_nascimento.date' => 'Data de nascimento inválida.',
+            ]
+        );
     }
 
     private function formatData(array $data): array
@@ -83,19 +90,14 @@ class ClienteController extends Controller
         $data['cpf'] = $this->formatCpf($data['cpf']);
         $data['telefone'] = $this->formatTelefone($data['telefone'] ?? null);
 
-        if (!empty($data['data_nascimento'])) {
-            $data['data_nascimento'] = Carbon::createFromFormat(
-                'd/m/Y',
-                $data['data_nascimento']
-            )->format('Y-m-d');
-        }
-
+        // NÃO mexe na data, ela já vem em Y-m-d
         return $data;
     }
 
     private function formatCpf(string $cpf): string
     {
         $cpf = preg_replace('/\D/', '', $cpf);
+
         return preg_replace(
             '/(\d{3})(\d{3})(\d{3})(\d{2})/',
             '$1.$2.$3-$4',
