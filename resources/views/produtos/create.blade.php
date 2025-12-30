@@ -42,11 +42,10 @@
                 <label for="valor">Preço (R$)</label>
                 <input
                     id="valor"
-                    type="number"
+                    type="text"
                     name="valor"
-                    step="0.01"
                     class="form-control"
-                    value="{{ old('valor') }}"
+                    value="{{ old('valor', isset($produto) ? number_format($produto->valor, 2, ',', '.') : '') }}"
                     required
                 >
             </div>
@@ -102,4 +101,43 @@
         </div>
     </form>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('valor');
+
+    if (!input) return;
+
+    input.addEventListener('input', function () {
+        let valor = input.value;
+
+        // remove tudo que não for número
+        valor = valor.replace(/\D/g, '');
+
+        // transforma em centavos
+        valor = (valor / 100).toFixed(2);
+
+        // troca ponto por vírgula
+        valor = valor.replace('.', ',');
+
+        // adiciona separador de milhar
+        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+        input.value = valor;
+    });
+
+    // antes de enviar o formulário
+    input.form.addEventListener('submit', function () {
+        let valor = input.value;
+
+        // remove pontos
+        valor = valor.replace(/\./g, '');
+
+        // troca vírgula por ponto
+        valor = valor.replace(',', '.');
+
+        input.value = valor;
+    });
+});
+</script>
+
 @endsection
