@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CadastroController;
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return redirect()->route('clientes.index');
@@ -15,4 +16,7 @@ Route::resource('clientes', ClienteController::class);
 // Rotas para Produtos
 Route::resource('produtos', ProdutoController::class);
 
-Route::resource('Users', UsersController::class);
+Route::resource('login',LoginController::class);
+
+
+Route::resource('cadastro', CadastroController::class);

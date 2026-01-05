@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UsersController;
 use Illuminate\Http\Request;
 
-class UsersControllerController extends Controller
+class CadastroController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('cadastro.index');
     }
 
     /**
@@ -34,7 +33,7 @@ class UsersControllerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UsersController $usersController)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class UsersControllerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UsersController $usersController)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class UsersControllerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UsersController $usersController)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class UsersControllerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UsersController $usersController)
+    public function destroy(string $id)
     {
         //
     }
