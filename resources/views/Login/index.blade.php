@@ -45,10 +45,11 @@
 
         <div class="form-grid">
 
-            <strong>NOME</strong>
-            <input type="text">
+            <strong>EMAIL</strong>
+            <input type="email" name="email" value="{{ old('email') }}" class="form-control">
             <strong>SENHA</strong>
-            <input type="text">
+            <input type="password" name="password" class="form-control">
+            <label style="grid-column:1 / -1; margin-top:8px"><input type="checkbox" name="remember"> Lembrar-me</label>
             <div class="cadastro-link">
                 NÂO TEM UMA CONTA?
                 <a href="{{ route('cadastro.index') }}"><strong>CADASTRE-SE</strong></a>

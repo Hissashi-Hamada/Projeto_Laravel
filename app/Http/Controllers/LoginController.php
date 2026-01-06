@@ -3,41 +3,59 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use app\Models\Cadastro;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
     public function index()
     {
+        // Se o usuário já estiver logado, manda para a home
+        if (Auth::check()) {
+            return redirect()->route('clientes.index');
+        }
         return view('login.index');
-    }
-
-    public function create()
-    {
-        return view('users.create');
     }
 
     public function store(Request $request)
     {
-        
+        // 1. Validação
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ], [
+            'email.required' => 'O campo email é obrigatório.',
+            'email.email' => 'O email informado é inválido.',
+            'password.required' => 'A senha é obrigatória.',
+        ]);
+
+        // 2. Tentativa de Login (provider usa App\Models\Cadastro)
+        $attempt = Auth::attempt([
+            'email' => $credentials['email'],
+            'password' => $credentials['password'],
+        ], $request->boolean('remember'));
+
+        if ($attempt) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('clientes')
+                ->with('success', 'Bem-vindo de volta!');
+        }
+
+        // 3. Falha no login
+        return back()->withErrors([
+            'login_error' => 'As credenciais fornecidas não correspondem aos nossos registros.',
+        ])->onlyInput('name');
     }
 
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function edit(string $id)
-    {
-        return view('usuarios.edit');
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
+    // Método para deslogar
     public function destroy(string $id)
     {
-        //
+        Auth::logout();
+        Session::invalidate();
+        Session::regenerateToken();
+
+        return redirect()->route('login.index');
     }
 }

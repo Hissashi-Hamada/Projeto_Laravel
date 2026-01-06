@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Cadastro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class CadastroController extends Controller
 {
@@ -28,14 +30,30 @@ class CadastroController extends Controller
      */
 public function store(Request $request)
 {
-    $data = $request->only([
-        'nome',
-        'cpf',
-        'data_nascimento',
-        'telefone',
-        'email',
-        'senha',
+    $data = $request->validate([
+        'nome' => ['required','string'],
+        'cpf' => ['nullable','string'],
+        'data_nascimento' => ['nullable','date_format:d/m/Y'],
+        'telefone' => ['required','string'],
+        'email' => ['required','email'],
+        'senha' => ['required','string'],
+    ], [
+        'data_nascimento.date_format' => 'Data de nascimento deve estar no formato DD/MM/AAAA.',
     ]);
+
+    // Convert to DB date format (Y-m-d) if provided
+    if (!empty($data['data_nascimento'])) {
+        try {
+            $data['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $data['data_nascimento'])->format('Y-m-d');
+        } catch (\Exception $e) {
+            return back()->withErrors(['data_nascimento' => 'Data de nascimento inválida.'])->withInput();
+        }
+    }
+
+    // Hash password before storing (column `senha`)
+    if (!empty($data['senha'])) {
+        $data['senha'] = Hash::make($data['senha']);
+    }
 
     Cadastro::create($data);
 
