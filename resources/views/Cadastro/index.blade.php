@@ -7,9 +7,9 @@
     <style>
         main {
             max-width: 540px;
-            margin: 50px auto;
+            margin:auto;
             background: #fff;
-            padding: 30px;
+            padding: 26px;
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0,0,0,.08);
         }
@@ -27,23 +27,32 @@
 <div class="container">
 
     <h2 class="mb-4">Cadastro</h2>
+    <form action="{{ route('cadastro.store') }}" method="POST">
+        @csrf
 
         <div class="form-grid">
-
             <strong>NOME</strong>
-            <input type="text">
+            <input type="text" name="nome">
+
             <strong>EMAIL</strong>
-            <input type="text">
+            <input type="text" name="email">
+
+            <strong>CPF</strong>
+            <input type="text" name="cpf">
+
             <strong>TELEFONE</strong>
-            <input type="text">
+            <input type="text" name="telefone">
+
             <strong>DATA DE NASCIMENTO</strong>
-            <input type="text" id="data_nascimento">
+            <input type="text" id="data_nascimento" name="data_nascimento">
+
             <strong>SENHA</strong>
-            <input type="text">
+            <input type="password" name="senha">
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">LOGIN</button>
+        <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
     </form>
+
 </div>
 @endsection
 

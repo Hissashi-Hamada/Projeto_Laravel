@@ -54,7 +54,7 @@
                 <a href="{{ route('cadastro.index') }}"><strong>CADASTRE-SE</strong></a>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">LOGIN</button>
+        <button type="submit" class="btn btn-primary mt-3">Logar</button>
     </form>
 </div>
 @endsection

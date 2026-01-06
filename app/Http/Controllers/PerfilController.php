@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cadastro;
 use Illuminate\Http\Request;
 
-class CadastroController extends Controller
+class PerfilController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('cadastro.index');
+        //
     }
 
     /**
@@ -26,24 +25,10 @@ class CadastroController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
-{
-    $data = $request->only([
-        'nome',
-        'cpf',
-        'data_nascimento',
-        'telefone',
-        'email',
-        'senha',
-    ]);
-
-    Cadastro::create($data);
-
-    return redirect()
-        ->route('cadastro.index')
-        ->with('success', 'Usuario cadastrado com sucesso!');
-}
-
+    public function store(Request $request)
+    {
+        //
+    }
 
     /**
      * Display the specified resource.
