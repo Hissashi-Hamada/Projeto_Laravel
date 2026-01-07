@@ -12,7 +12,7 @@ class LoginController extends Controller
     {
         // Se o usuário já estiver logado, manda para a home
         if (Auth::check()) {
-            return redirect()->route('clientes.index');
+            return redirect()->route('vendas.index');
         }
         return view('login.index');
     }
