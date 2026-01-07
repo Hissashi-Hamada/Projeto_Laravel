@@ -22,3 +22,4 @@ Route::resource('login',LoginController::class);
 Route::resource('cadastro', CadastroController::class);
 
 Route::post('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
+

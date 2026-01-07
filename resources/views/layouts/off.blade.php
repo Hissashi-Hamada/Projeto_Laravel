@@ -177,7 +177,11 @@
     </style>
 
     {{-- VITE --}}
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @vite([
+        'resources/js/app.js',
+        'resources/css/app.css',
+        'resources/js/utils/passwordStrength.js'
+    ])
 
     {{-- STYLES EXTRAS --}}
     @stack('styles')

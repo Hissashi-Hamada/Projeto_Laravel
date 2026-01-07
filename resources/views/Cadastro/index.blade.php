@@ -5,7 +5,7 @@
     <style>
         main {
             max-width: 540px;
-            margin:auto;
+            margin: 100px auto;
             background: #fff;
             padding: 26px;
             border-radius: 10px;
@@ -20,6 +20,32 @@
             margin-top: 10px;
             margin-block: 10px;
         }
+        .password-strength-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #ddd;
+            border-radius: 4px; 
+            margin-top: 5px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,.2);
+            overflow: hidden;
+        }
+        .strength-indicator {
+            height: 100%;
+            width: 0;
+            border-radius: 4px;
+            transition: width 0.5 ease, background-color 0.5s ease;
+        }
+        .password-strength-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        #tip {
+            font-style: italic
+            color: #000000;
+            margin: 0 auto 10px;
+        }
+
+
     </style>
 
 <div class="container">
@@ -29,23 +55,30 @@
         @csrf
 
         <div class="form-grid">
-            <strong>NOME</strong>
-            <input type="text" name="nome">
+            <input type="text" name="nome" placeholder="Digite seu nome completo">
 
-            <strong>EMAIL</strong>
-            <input type="text" name="email">
+            <input type="text" name="email" placeholder="Digite seu email">
 
-            <strong>CPF</strong>
-            <input type="text" name="cpf">
+            <input type="text" name="cpf" placeholder="CPF 000.000.000-00">
 
-            <strong>TELEFONE</strong>
-            <input type="text" name="telefone">
+            <input type="text" name="telefone" placeholder="TELEFONE (XX) XXXXX-XXXX">
 
-            <strong>DATA DE NASCIMENTO</strong>
-            <input type="text" id="data_nascimento" name="data_nascimento">
+            <input type="text" id="data_nascimento" name="data_nascimento" placeholder="DATA DE NASCIMENTO DD/MM/AAAA">
 
-            <strong>SENHA</strong>
-            <input type="password" name="senha">
+            <input type="password" id="passwordInput" name="senha" placeholder="Digite sua senha" />
+
+            <div class="password-strength-bar">
+                <div id="password-strength-indicator" class="strength-indicator"></div>
+            </div>
+            <p id="tip">Sua senha precisa conter letras, minúsculas e maiúsculas, números e 
+            caracteres especiais.
+            </p>
+            
+        </div>
+
+        <div class="cadastro-link">
+                JÁ TEM UMA CONTA?
+            <a href="{{ route('login.index') }}"><strong>LOGAR-SE</strong></a>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
@@ -53,7 +86,7 @@
 
 </div>
 @endsection
-
+<script src="{{ asset('js/utils/passwordStrength.js') }}"></script>
 @push('scripts')
 <script>
     document.querySelector('#data_nascimento').addEventListener('input', function (e) {
