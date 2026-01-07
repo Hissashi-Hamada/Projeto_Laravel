@@ -189,14 +189,6 @@
     <header>
         <h1>CRUD Laravel</h1>
 
-        <nav>
-            <a href="{{ route('clientes.index') }}">Clientes</a>
-            <a href="{{ route('produtos.index') }}">Produtos</a>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-                @csrf
-            </form>
-        </nav>
     </header>
 
     {{-- CONTEÚDO --}}

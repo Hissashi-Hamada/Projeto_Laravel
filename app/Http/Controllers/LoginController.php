@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use app\Models\Cadastro;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request as HttpRequest;
 
 class LoginController extends Controller
 {
@@ -50,11 +49,12 @@ class LoginController extends Controller
     }
 
     // Método para deslogar
-    public function destroy(string $id)
+    public function destroy(HttpRequest $request)
     {
         Auth::logout();
-        Session::invalidate();
-        Session::regenerateToken();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('login.index');
     }

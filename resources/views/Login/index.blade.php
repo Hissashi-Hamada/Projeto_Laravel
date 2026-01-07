@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.off')
 
 @section('title', 'Cadastrar Cliente')
 
@@ -44,7 +44,6 @@
         @csrf
 
         <div class="form-grid">
-
             <strong>EMAIL</strong>
             <input type="email" name="email" value="{{ old('email') }}" class="form-control">
             <strong>SENHA</strong>

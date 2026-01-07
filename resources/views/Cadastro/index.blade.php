@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('title', 'Cadastrar Cliente')
+@extends('layouts.off')
 
 @section('content')
 
