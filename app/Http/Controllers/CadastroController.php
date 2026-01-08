@@ -66,7 +66,7 @@ public function store(Request $request)
     Cadastro::create($data);
 
     return redirect()
-        ->route('vendas.index')
+        ->route('login.index')
         ->with('success', 'Usuario cadastrado com sucesso!');
 }
 
