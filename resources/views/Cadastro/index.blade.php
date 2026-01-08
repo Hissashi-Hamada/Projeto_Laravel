@@ -81,7 +81,10 @@
             <a href="{{ route('login.index') }}"><strong>LOGAR-SE</strong></a>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+        <button type="submit" id="submitBtn" class="btn btn-primary mt-3">
+            Cadastrar
+        </button>
+
     </form>
 
 </div>

@@ -36,7 +36,15 @@ public function store(Request $request)
         'data_nascimento' => ['nullable','date_format:d/m/Y'],
         'telefone' => ['required','string'],
         'email' => ['required','email'],
-        'senha' => ['required','string'],
+        'senha' => [
+            'required',
+            'string',
+            'min:8',
+            'regex:/[a-z]/',
+            'regex:/[A-Z]/',
+            'regex:/[0-9]/',
+            'regex:/[^A-Za-z0-9]/',
+        ],
     ], [
         'data_nascimento.date_format' => 'Data de nascimento deve estar no formato DD/MM/AAAA.',
     ]);
