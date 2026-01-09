@@ -38,7 +38,7 @@ class LoginController extends Controller
         if ($attempt) {
             $request->session()->regenerate();
 
-            return redirect()->intended('clientes')
+            return redirect()->intended('vendas')
                 ->with('success', 'Bem-vindo de volta!');
         }
 
@@ -56,6 +56,16 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.index');
+        return redirect()->route('login');
+    }
+
+    public function logout(HttpRequest $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }

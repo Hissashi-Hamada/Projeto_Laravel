@@ -6,21 +6,32 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\CadastroController;
 use App\Http\Controllers\LoginController;
 
+// Página inicial
 Route::get('/', function () {
-    return redirect()->route('clientes.index');
+    return redirect()->route('login');
 });
 
-// Rotas para Clientes
-Route::resource('clientes', ClienteController::class);
+// Login
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 
-// Rotas para Produtos
-Route::resource('produtos', ProdutoController::class);
+// Logout
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->name('logout')
+    ->middleware('auth');
 
-Route::resource('login',LoginController::class);
-
-
+// Cadastro
 Route::resource('cadastro', CadastroController::class);
 
-Route::post('/logout', [LoginController::class, 'destroy'])->name('logout')->middleware('auth');
+// Clientes (protegido)
+Route::resource('clientes', ClienteController::class)
+    ->middleware('auth');
 
-Route::view('vendas', 'vendas.index');
+// Produtos (protegido)
+Route::resource('produtos', ProdutoController::class)
+    ->middleware('auth');
+
+// Vendas
+Route::view('vendas', 'vendas.index')
+    ->name('vendas.index')
+    ->middleware('auth');

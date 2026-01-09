@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cadastro;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -63,10 +63,10 @@ public function store(Request $request)
         $data['senha'] = Hash::make($data['senha']);
     }
 
-    Cadastro::create($data);
+    Users::create($data);
 
     return redirect()
-        ->route('login.index')
+        ->route('vendas.index')
         ->with('success', 'Usuario cadastrado com sucesso!');
 }
 
