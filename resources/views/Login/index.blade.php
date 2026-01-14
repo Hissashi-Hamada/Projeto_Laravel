@@ -44,7 +44,9 @@
         @csrf
 
         <div class="form-grid">
-            <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Digite seu email">
+            <input
+            type="email"
+            name="email" value="{{ old('email') }}" class="form-control" placeholder="Digite seu email">
             <input type="password" name="password" class="form-control" placeholder="Digite sua senha">
             <label style="grid-column:1 / -1; margin-top:8px"><input type="checkbox" name="remember"> Lembrar-me</label>
             <div class="cadastro-link">

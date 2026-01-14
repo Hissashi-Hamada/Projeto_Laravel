@@ -43,9 +43,9 @@ class LoginController extends Controller
         }
 
         // 3. Falha no login
-        return back()->withErrors([
-            'login_error' => 'As credenciais fornecidas não correspondem aos nossos registros.',
-        ])->onlyInput('name');
+        return back()
+            ->withErrors(['email' => 'Email ou senha inválidos'])
+            ->withInput();
     }
 
     // Método para deslogar
