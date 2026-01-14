@@ -5,6 +5,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\CadastroController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 
 // Página inicial
 Route::get('/', function () {
@@ -12,6 +13,7 @@ Route::get('/', function () {
 });
 
 // Login
+Route::get('/register', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('register');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 

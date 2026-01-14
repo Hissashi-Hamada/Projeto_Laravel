@@ -10,12 +10,12 @@
         p {
             font-size: 20px;
             font-weight: bold;
-            color: green;
+            color: blue;
         }
     </style>
 </head>
 <body>
-    <p>Bem-vindo, Cliente!</p>
+    <p>Bem-vindo, Vendedor!</p>
 </body>
 </html>
 @endsection
