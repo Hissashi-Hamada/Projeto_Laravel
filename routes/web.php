@@ -34,6 +34,6 @@ Route::resource('produtos', ProdutoController::class)
     ->middleware('auth');
 
 // Vendas
-Route::view('vendas', 'vendas.index')
+Route::get('vendas', [UserController::class, 'index'])
     ->name('vendas.index')
     ->middleware('auth');
