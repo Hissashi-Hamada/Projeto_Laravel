@@ -75,7 +75,7 @@
         /* FORMULÁRIOS */
         .form-grid {
             display: grid;
-            
+
             gap: 20px;
         }
 
@@ -184,19 +184,30 @@
 </head>
 
 <body>
+@php
+    $userType = auth()->user()->user_type ?? null;
+    $isAdmin = $userType === 'admin';
+@endphp
 
     {{-- HEADER --}}
     <header>
         <h1>CRUD Laravel</h1>
 
-        <nav>
+    <nav>
+        @if ($isAdmin)
             <a href="{{ route('clientes.index') }}">Clientes</a>
             <a href="{{ route('produtos.index') }}">Produtos</a>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-                @csrf
-            </form>
-        </nav>
+        @endif
+
+        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            Logout
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+            @csrf
+        </form> 
+    </nav>
+
     </header>
 
     {{-- CONTEÚDO --}}
@@ -223,7 +234,7 @@
             });
         </script>
     @endif
-    
+
     @if ($errors->any())
     <script>
             Swal.fire({
