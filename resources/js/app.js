@@ -1,29 +1,20 @@
 import './bootstrap';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { formatCpf } from './utils/cpf';
 import { formatTelefone } from './utils/telefone';
 
-// Apply masks to inputs
-document.addEventListener('DOMContentLoaded', () => {
-    const cpfInput = document.querySelector('input[name="cpf"]');
-    const telefoneInput = document.querySelector('input[name="telefone"]');
+document.addEventListener('input', (e) => {
+    const target = e.target;
 
-    if (cpfInput) {
-        cpfInput.addEventListener('input', (e) => {
-            const value = e.target.value;
-            const formatted = formatCpf(value);
-            if (value !== formatted) {
-                e.target.value = formatted;
-            }
-        });
+    if (target.matches('input[name="cpf"]')) {
+        target.value = formatCpf(target.value);
+        return;
     }
 
-    if (telefoneInput) {
-        telefoneInput.addEventListener('input', (e) => {
-            const value = e.target.value;
-            const formatted = formatTelefone(value);
-            if (value !== formatted) {
-                e.target.value = formatted;
-            }
-        });
+    if (target.matches('input[name="telefone"]')) {
+        target.value = formatTelefone(target.value);
+        return;
     }
 });

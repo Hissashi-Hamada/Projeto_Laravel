@@ -15,6 +15,11 @@
         crossorigin="anonymous"
     >
 
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+
     {{-- CSS GLOBAL --}}
     <style>
         * {
@@ -174,6 +179,205 @@
             background: #dc2626;
             color: #fff;
         }
+        :root{
+            --bg: #0b1220;
+            --panel: #111a2e;
+            --text: #e7eaf0;
+            --muted: #a7b0c0;
+            --border: rgba(255,255,255,.08);
+            --shadow: 0 10px 30px rgba(0,0,0,.35);
+            --radius: 14px;
+        }
+
+        *{ box-sizing:border-box; }
+        body{
+            margin:0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: linear-gradient(180deg, #070b14, #0b1220);
+            color: var(--text);
+        }
+
+        .topbar{
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            background: rgba(17, 26, 46, .92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .topbar-left{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            min-width: 220px;
+        }
+
+        .brand{
+            display:flex;
+            flex-direction:column;
+            line-height:1.1;
+        }
+        .brand strong{ font-size: 14px; }
+        .brand span{ font-size: 12px; color: var(--muted); }
+
+        .icon-btn{
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,.04);
+            color: var(--text);
+            cursor: pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .icon-btn:hover{ background: rgba(255,255,255,.07); }
+
+        .hamburger{
+            width: 18px;
+            height: 14px;
+            position: relative;
+        }
+        .hamburger span{
+            position:absolute;
+            left:0;
+            right:0;
+            height:2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform .2s ease, top .2s ease, opacity .2s ease;
+        }
+        .hamburger span:nth-child(1){ top:0; }
+        .hamburger span:nth-child(2){ top:6px; }
+        .hamburger span:nth-child(3){ top:12px; }
+
+        .topnav{
+            display:flex;
+            gap: 8px;
+            align-items:center;
+            flex: 1;
+            justify-content: center;
+            overflow:auto;
+            padding: 0 8px;
+        }
+        .topnav a{
+            text-decoration:none;
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .topnav a:hover{
+            border-color: var(--border);
+            background: rgba(255,255,255,.04);
+        }
+
+        .topbar-right{
+            display:flex;
+            align-items:center;
+            gap: 10px;
+            min-width: 220px;
+            justify-content:flex-end;
+        }
+
+        .search{
+            width: 220px;
+            max-width: 40vw;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,.04);
+            color: var(--text);
+            outline:none;
+        }
+        .search::placeholder{ color: var(--muted); }
+
+        .page{
+            max-width: 1200px;
+            margin: 18px auto;
+            padding: 0 16px;
+        }
+
+        .drawer-overlay{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s ease;
+            z-index: 80;
+        }
+        .drawer{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 290px;
+            background: rgba(17, 26, 46, .98);
+            border-right: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transform: translateX(-100%);
+            transition: transform .22s ease;
+            z-index: 90;
+            padding: 14px;
+            display:flex;
+            flex-direction:column;
+            gap: 10px;
+        }
+
+        .drawer header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding: 6px 4px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .drawer a{
+            color: var(--text);
+            text-decoration:none;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+        }
+        .drawer a:hover{
+            border-color: var(--border);
+            background: rgba(255,255,255,.04);
+        }
+
+        body.drawer-open .drawer-overlay{
+            opacity: 1;
+            pointer-events: auto;
+        }
+        body.drawer-open .drawer{
+            transform: translateX(0);
+        }
+        body.drawer-open .hamburger span:nth-child(1){ top: 6px; transform: rotate(45deg); }
+        body.drawer-open .hamburger span:nth-child(2){ opacity: 0; }
+        body.drawer-open .hamburger span:nth-child(3){ top: 6px; transform: rotate(-45deg); }
+
+        @media (max-width: 860px){
+            .topnav{ display:none; }
+            .search{ display:none; }
+            .topbar-left{ min-width: auto; }
+            .topbar-right{ min-width: auto; }
+        }
+
+        .card{
+            background: rgba(255,255,255,.04);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+        }
     </style>
 
     {{-- VITE --}}
@@ -187,31 +391,72 @@
 @php
     $userType = auth()->user()->user_type ?? null;
     $isAdmin = $userType === 'admin';
+    $isVendedor = $userType === 'vendedor';
+    $canManage = $isAdmin || $isVendedor; // pode ver menus de gestão
 @endphp
 
-    {{-- HEADER --}}
-    <header>
-        <h1>CRUD Laravel</h1>
+    <div class="drawer-overlay" data-drawer-close></div>
 
-    <nav>
-        @if ($isAdmin)
+    <aside class="drawer" aria-label="Menu lateral">
+        <header>
+            <div class="brand">
+                <strong>Menu</strong>
+                <span>Navegação</span>
+            </div>
+            <button class="icon-btn" type="button" data-drawer-close aria-label="Fechar menu">
+                X
+            </button>
+        </header>
+
+        @if ($canManage)
+            <a href="{{ route('vendas.index') }}">Vendas</a>
             <a href="{{ route('clientes.index') }}">Clientes</a>
             <a href="{{ route('produtos.index') }}">Produtos</a>
         @endif
 
-        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <a href="#"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             Logout
         </a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
             @csrf
-        </form> 
-    </nav>
+        </form>
+    </aside>
 
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="icon-btn" type="button" data-drawer-toggle aria-label="Abrir menu">
+                <div class="hamburger" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </div>
+            </button>
+
+            <div class="brand">
+                <strong>Sistema de Vendas</strong>
+                <span>Laravel 12</span>
+            </div>
+        </div>
+
+        <nav class="topnav" aria-label="Navegação principal">
+            @if ($canManage)
+                <a href="{{ route('vendas.index') }}">Vendas</a>
+                <a href="{{ route('clientes.index') }}">Clientes</a>
+                <a href="{{ route('produtos.index') }}">Produtos</a>
+            @endif
+
+            <a href="#"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+            </a>
+        </nav>
+
+        <div class="topbar-right">
+            <input class="search" type="search" placeholder="Buscar...">
+        </div>
     </header>
 
-    {{-- CONTEÚDO --}}
-    <main>
+    <main class="page">
         @yield('content')
     </main>
 
@@ -222,8 +467,9 @@
         crossorigin="anonymous"
     ></script>
 
-    {{-- SWEETALERT  --}}
+    {{-- SWEETALERT --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @if (session('success'))
         <script>
             Swal.fire({
@@ -236,7 +482,7 @@
     @endif
 
     @if ($errors->any())
-    <script>
+        <script>
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',
@@ -246,9 +492,29 @@
         </script>
     @endif
 
+    <script>
+        (function(){
+            const body = document.body;
+            const toggle = document.querySelector('[data-drawer-toggle]');
+            const closes = document.querySelectorAll('[data-drawer-close]');
 
-    {{-- SCRIPTS EXTRAS --}}
+            function openDrawer(){ body.classList.add('drawer-open'); }
+            function closeDrawer(){ body.classList.remove('drawer-open'); }
+
+            toggle?.addEventListener('click', () => {
+                body.classList.contains('drawer-open') ? closeDrawer() : openDrawer();
+            });
+
+            closes.forEach(el => el.addEventListener('click', closeDrawer));
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeDrawer();
+            });
+        })();
+    </script>
+
+    {{-- SCRIPTS EXTRAS (use @push('scripts') nas views) --}}
     @stack('scripts')
-
 </body>
+
 </html>
