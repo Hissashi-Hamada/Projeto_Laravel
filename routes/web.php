@@ -32,8 +32,18 @@ Route::resource('clientes', ClienteController::class)
 // Produtos (protegido)
 Route::resource('produtos', ProdutoController::class)
     ->middleware('auth');
+Route::apiResource('produtos', ProdutoController::class)
+    ->middleware('auth');
 
 // Vendas
 Route::get('vendas', [UserController::class, 'index'])
+    ->name('vendas.index')
+    ->middleware('auth');
+
+Route::get('vendas', [ProdutoController::class, 'index'])
+    ->name('vendas.index')
+    ->middleware('auth');
+
+Route::get('vendas', [ProdutoController::class, 'vendas'])
     ->name('vendas.index')
     ->middleware('auth');

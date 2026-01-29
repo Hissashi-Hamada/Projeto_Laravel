@@ -260,12 +260,6 @@
 
         .topnav{
             display:flex;
-            gap: 8px;
-            align-items:center;
-            flex: 1;
-            justify-content: center;
-            overflow:auto;
-            padding: 0 8px;
         }
         .topnav a{
             text-decoration:none;
@@ -281,7 +275,7 @@
             background: rgba(255,255,255,.04);
         }
 
-        .topbar-right{
+        .topbar-center{
             display:flex;
             align-items:center;
             gap: 10px;
@@ -369,7 +363,7 @@
             .topnav{ display:none; }
             .search{ display:none; }
             .topbar-left{ min-width: auto; }
-            .topbar-right{ min-width: auto; }
+            .topbar-center{ min-width: auto; }
         }
 
         .card{
@@ -385,60 +379,26 @@
 
     {{-- STYLES EXTRAS --}}
     @stack('styles')
-</head>
+    @php
+        $userType = auth()->user()->user_type ?? null;
+        $isAdmin = $userType === 'admin';
+        $isVendedor = $userType === 'vendedor';
+        $canManage = $isAdmin || $isVendedor; // pode ver menus de gestão
+    @endphp
 
-<body>
-@php
-    $userType = auth()->user()->user_type ?? null;
-    $isAdmin = $userType === 'admin';
-    $isVendedor = $userType === 'vendedor';
-    $canManage = $isAdmin || $isVendedor; // pode ver menus de gestão
-@endphp
+        <div class="drawer-overlay" data-drawer-close></div>
 
-    <div class="drawer-overlay" data-drawer-close></div>
-
-    <aside class="drawer" aria-label="Menu lateral">
-        <header>
-            <div class="brand">
-                <strong>Menu</strong>
-                <span>Navegação</span>
-            </div>
-            <button class="icon-btn" type="button" data-drawer-close aria-label="Fechar menu">
-                X
-            </button>
-        </header>
-
-        @if ($canManage)
-            <a href="{{ route('vendas.index') }}">Vendas</a>
-            <a href="{{ route('clientes.index') }}">Clientes</a>
-            <a href="{{ route('produtos.index') }}">Produtos</a>
-        @endif
-
-        <a href="#"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            Logout
-        </a>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-            @csrf
-        </form>
-    </aside>
-
-    <header class="topbar">
-        <div class="topbar-left">
-            <button class="icon-btn" type="button" data-drawer-toggle aria-label="Abrir menu">
-                <div class="hamburger" aria-hidden="true">
-                    <span></span><span></span><span></span>
+        <aside class="drawer" aria-label="Menu lateral">
+            <header>
+                <div class="brand">
+                    <strong>Menu</strong>
+                    <span>Navegação</span>
                 </div>
-            </button>
+                <button class="icon-btn" type="button" data-drawer-close aria-label="Fechar menu">
+                    X
+                </button>
+            </header>
 
-            <div class="brand">
-                <strong>Sistema de Vendas</strong>
-                <span>Laravel 12</span>
-            </div>
-        </div>
-
-        <nav class="topnav" aria-label="Navegação principal">
             @if ($canManage)
                 <a href="{{ route('vendas.index') }}">Vendas</a>
                 <a href="{{ route('clientes.index') }}">Clientes</a>
@@ -449,48 +409,75 @@
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 Logout
             </a>
-        </nav>
 
-        <div class="topbar-right">
-            <input class="search" type="search" placeholder="Buscar...">
-        </div>
-    </header>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                @csrf
+            </form>
+        </aside>
 
-    <main class="page">
-        @yield('content')
-    </main>
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-btn" type="button" data-drawer-toggle aria-label="Abrir menu">
+                    <div class="hamburger" aria-hidden="true">
+                        <span></span><span></span><span></span>
+                    </div>
+                </button>
 
-    {{-- BOOTSTRAP JS --}}
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"
-    ></script>
+                <div class="brand">
+                    <strong>projeto de laravel</strong>
+                </div>
+            </div>
 
-    {{-- SWEETALERT --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Sucesso',
-                text: '{{ session('success') }}',
-                confirmButtonText: 'OK'
-            });
-        </script>
-    @endif
+            <div class="topbar-center">
+                <input class="search" type="search" placeholder="Buscar...">
+            </div>
+            <nav class="topnav" aria-label="Navegação principal">
+                <a href="#"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+            </nav>
+        </header>
 
-    @if ($errors->any())
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro',
-                text: 'Verifique os campos do formulário.',
-                confirmButtonText: 'OK'
-            });
-        </script>
-    @endif
+        <main class="page">
+            @yield('content')
+        </main>
+
+        {{-- BOOTSTRAP JS --}}
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"
+        ></script>
+
+        {{-- SWEETALERT --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'OK'
+                });
+            </script>
+        @endif
+
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Verifique os campos do formulário.',
+                    confirmButtonText: 'OK'
+                });
+            </script>
+        @endif
+</head>
+
+<body>
 
     <script>
         (function(){
