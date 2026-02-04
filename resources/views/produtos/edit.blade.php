@@ -40,6 +40,8 @@
                 @enderror
             </div>
 
+            
+
             {{-- DESCRIÇÃO --}}
             <div class="form-group full">
                 <label for="descricao">Descrição</label>

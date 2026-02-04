@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProdutoRequest;
 use Illuminate\Http\Request;
 use App\Models\Produto;
 
@@ -15,20 +16,30 @@ class ProdutoController extends Controller
 
     public function create()
     {
+
         return view('produtos.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreProdutoRequest $request)
     {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'valor' => 'required|numeric|min:0',
-            'quantidade' => 'required|integer|min:0',
-            'status' => 'required|boolean',
-        ]);
 
-        Produto::create($validated);
+        // $validated = $request->validate([
+        //     'nome' => 'required|string|max:255',
+        //     'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:122880',
+        //     'descricao' => 'nullable|string',
+        //     'valor' => 'required|numeric|min:0',
+        //     'quantidade' => 'required|integer|min:0',
+        //     'status' => 'required|boolean',
+        // ]);
+
+        $data = $request->validated();
+
+        // Verifica se tem imagem antes de tentar fazer upload
+        if ($request->hasFile('imagem')) {
+            $data['imagem'] = $request->file('imagem')->store('produtos', 'public');
+        }
+
+        Produto::create($data);
 
         return redirect()
             ->route('produtos.index')
@@ -43,7 +54,7 @@ class ProdutoController extends Controller
         return view('vendas.index', compact('venda'));
     }
 
-        public function vendas()
+    public function vendas()
     {
         $produtos = Produto::all();
         return view('vendas.index', compact('produtos'));
@@ -56,23 +67,33 @@ class ProdutoController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $produto = Produto::findOrFail($id);
+{
+    $produto = Produto::findOrFail($id);
 
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string|max:50',
-            'valor' => 'required|numeric|min:0',
-            'quantidade' => 'required|integer|min:0',
-            'status' => 'required|boolean',
-        ]);
+    $validated = $request->validate([
+        'nome' => 'required|string|max:255',
+        'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'descricao' => 'nullable|string|max:50',
+        'valor' => 'required|numeric|min:0',
+        'quantidade' => 'required|integer|min:0',
+        'status' => 'required|boolean',
+    ]);
 
-        $produto->update($validated);
-
-        return redirect()
-            ->route('produtos.index')
-            ->with('success', 'Produto atualizado com sucesso!');
+    // Faz upload da nova imagem se existir
+    if ($request->hasFile('imagem')) {
+        // Remove a imagem antiga se existir
+        if ($produto->imagem && \Storage::disk('public')->exists($produto->imagem)) {
+            \Storage::disk('public')->delete($produto->imagem);
+        }
+        $validated['imagem'] = $request->file('imagem')->store('produtos', 'public');
     }
+
+    $produto->update($validated);
+
+    return redirect()
+        ->route('produtos.index')
+        ->with('success', 'Produto atualizado com sucesso!');
+}
 
 
     public function destroy($id)

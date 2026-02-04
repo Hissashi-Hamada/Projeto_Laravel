@@ -90,6 +90,7 @@
         }
 
         .full {
+            margin-bottom: 20px;
             grid-column: 1 / -1;
         }
 

@@ -3,141 +3,114 @@
 @section('title', 'Novo Produto')
 
 @section('content')
-<div class="container">
+    <div class="container">
 
-    <h2 class="mb-4">Novo Produto</h2>
+        <h2 class="mb-4">Novo Produto</h2>
 
-    <form action="{{ route('produtos.store') }}" method="POST">
-        @csrf
+        <form action="{{ route('produtos.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @csrf
 
-        <div class="form-grid">
+            <div class="form-grid">
 
-            {{-- NOME --}}
-            <div class="form-group full">
-                <label for="nome">Nome do Produto</label>
-                <input
-                    id="nome"
-                    type="text"
-                    name="nome"
-                    class="form-control"
-                    value="{{ old('nome') }}"
-                    required
-                >
+                {{-- NOME --}}
+                <div class="form-group full">
+                    <label for="nome">Nome do Produto</label>
+                    <input id="nome" type="text" name="nome" class="form-control" value="{{ old('nome') }}">
+                </div>
+
+                {{-- IMAGEM --}}
+
+                <div class="form-group full">
+                    <label for="imagem">Imagem do Produto</label>
+                    <input id="imagem" type="file" name="imagem" class="form-control" accept="image/*">
+                </div>
+
+                {{-- DESCRIÇÃO --}}
+                <div class="form-group full">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="3" maxlength="50" class="form-control">{{ old('descricao') }}</textarea>
+                </div>
+
+                {{-- PREÇO --}}
+                <div class="form-group">
+                    <label for="valor">Preço (R$)</label>
+                    <input id="valor" type="text" name="valor" class="form-control"
+                        value="{{ old('valor', isset($produto) ? number_format($produto->valor, 2, ',', '.') : '') }}"
+                        >
+                </div>
+
+                {{-- QUANTIDADE --}}
+                <div class="form-group">
+                    <label for="quantidade">Quantidade</label>
+                    <input id="quantidade" type="number" name="quantidade" class="form-control"
+                        value="{{ old('quantidade') }}" required>
+                </div>
+
+                {{-- STATUS --}}
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" class="form-control" required>
+                        <option value="1" {{ old('status', 1) == 1 ? 'selected' : '' }}>
+                            Ativo
+                        </option>
+                        <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>
+                            Inativo
+                        </option>
+                    </select>
+                </div>
+
+                {{-- AÇÕES --}}
+                <div class="full actions mt-3">
+                    <button type="submit" class="btn btn-success">
+                        Salvar
+                    </button>
+
+                    <a href="{{ route('produtos.index') }}" class="btn btn-secondary">
+                        Voltar
+                    </a>
+                </div>
+
             </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('valor');
 
-            {{-- DESCRIÇÃO --}}
-            <div class="form-group full">
-                <label for="descricao">Descrição</label>
-                <textarea
-                    id="descricao"
-                    name="descricao"
-                    rows="3"
-                    maxlength="50"
-                    class="form-control"
-                >{{ old('descricao') }}</textarea>
-            </div>
+            if (!input) return;
 
-            {{-- PREÇO --}}
-            <div class="form-group">
-                <label for="valor">Preço (R$)</label>
-                <input
-                    id="valor"
-                    type="text"
-                    name="valor"
-                    class="form-control"
-                    value="{{ old('valor', isset($produto) ? number_format($produto->valor, 2, ',', '.') : '') }}"
-                    required
-                >
-            </div>
+            input.addEventListener('input', function() {
+                let valor = input.value;
 
-            {{-- QUANTIDADE --}}
-            <div class="form-group">
-                <label for="quantidade">Quantidade</label>
-                <input
-                    id="quantidade"
-                    type="number"
-                    name="quantidade"
-                    class="form-control"
-                    value="{{ old('quantidade') }}"
-                    required
-                >
-            </div>
+                // remove tudo que não for número
+                valor = valor.replace(/\D/g, '');
 
-            {{-- STATUS --}}
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select
-                    id="status"
-                    name="status"
-                    class="form-control"
-                    required
-                >
-                    <option value="1" {{ old('status', 1) == 1 ? 'selected' : '' }}>
-                        Ativo
-                    </option>
-                    <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>
-                        Inativo
-                    </option>
-                </select>
-            </div>
+                // transforma em centavos
+                valor = (valor / 100).toFixed(2);
 
-            {{-- AÇÕES --}}
-            <div class="full actions mt-3">
-                <button
-                    type="submit"
-                    class="btn btn-success"
-                >
-                    Salvar
-                </button>
+                // troca ponto por vírgula
+                valor = valor.replace('.', ',');
 
-                <a
-                    href="{{ route('produtos.index') }}"
-                    class="btn btn-secondary"
-                >
-                    Voltar
-                </a>
-            </div>
+                // adiciona separador de milhar
+                valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-        </div>
-    </form>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const input = document.getElementById('valor');
+                input.value = valor;
+            });
 
-    if (!input) return;
+            // antes de enviar o formulário
+            input.form.addEventListener('submit', function() {
+                let valor = input.value;
 
-    input.addEventListener('input', function () {
-        let valor = input.value;
+                // remove pontos
+                valor = valor.replace(/\./g, '');
 
-        // remove tudo que não for número
-        valor = valor.replace(/\D/g, '');
+                // troca vírgula por ponto
+                valor = valor.replace(',', '.');
 
-        // transforma em centavos
-        valor = (valor / 100).toFixed(2);
-
-        // troca ponto por vírgula
-        valor = valor.replace('.', ',');
-
-        // adiciona separador de milhar
-        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-        input.value = valor;
-    });
-
-    // antes de enviar o formulário
-    input.form.addEventListener('submit', function () {
-        let valor = input.value;
-
-        // remove pontos
-        valor = valor.replace(/\./g, '');
-
-        // troca vírgula por ponto
-        valor = valor.replace(',', '.');
-
-        input.value = valor;
-    });
-});
-</script>
+                input.value = valor;
+            });
+        });
+    </script>
 
 @endsection
