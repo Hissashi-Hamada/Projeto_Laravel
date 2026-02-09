@@ -52,16 +52,14 @@
                                     <form method="POST" action="{{ route('vendas.confirmar', $produto->id) }}"
                                         class="d-grid gap-2 d-sm-flex">
                                         @csrf
-                                        <button type="button" class="btn btn-primary btn-lg flex-fill"
-                                            data-bs-toggle="modal" data-bs-target="#modalConfirmarVenda{{ $produto->id }}">
-                                            Confirmar venda
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            Finalizar Comprar
                                         </button>
 
-                                        <div class="modal fade" id="modalConfirmarVenda{{ $produto->id }}" tabindex="-1"
-                                            aria-hidden="true">
-                                            ...
-                                            <input type="hidden" name="produto_id" value="{{ $produto->id }}">
-                                            ...
+                                        <!-- Modal -->
+                                        <div>
+                                            
                                         </div>
 
                                         <a href="{{ route('vendas.index') }}"
