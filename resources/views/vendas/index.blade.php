@@ -2,127 +2,98 @@
 
 @section('title', 'Produtos')
 
+@push('styles')
+    <style>
+        .product-card {
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 .75rem 1.5rem rgba(0, 0, 0, .12) !important;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+@endpush
+
 @section('content')
-<!doctype html>
-<html lang="pt-br">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Vendas')</title>
-</head>
-<body>
-<div class="container py-4">
-    <div class="row justify-content-center g-3">
+    <div class="container py-5">
 
-        @forelse ($produtos as $produto)
-            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0">Produtos</h1>
+        </div>
 
-                <div class="card bg-white text-dark shadow-sm border-0">
-                    <div class="card-body">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
-                        <h2 class="card-title mb-3">
-                            <strong>{{ $produto->nome }}</strong>
-                        </h2>
+            @forelse ($produtos as $produto)
+                @php
+                    // Se você já tem campo status booleano, use:
+                    // $emEstoque = (bool)($produto->status ?? false);
 
-                        {{-- Imagem do produto (se existir) --}}
-                        @if (!empty($produto->imagem))
-                            <img
-                                src="{{ asset('storage/' . $produto->imagem) }}"
-                                alt="Imagem do produto"
-                                class="img-fluid rounded mb-3"
-                            >
-                        @endif
+                    // Se o estoque depende da quantidade, use:
+                    $emEstoque = (int) ($produto->quantidade ?? 0) > 0;
+                @endphp
 
-                        <p class="card-text mb-3">
-                            <strong>quantidade:</strong> {{ $produto->quantidade ?? 1 }} <br>
-                            <strong>status:</strong> {{ ($produto->status ?? false) ? 'em estoque' : 'fora de estoque' }}
-                        </p>
+                <div class="col">
+                    <div class="card product-card h-100 border-2 shadow-sm rounded-4 overflow-hidden">
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="fw-bold fs-5">
-                                R$ {{ number_format($produto->valor, 2, ',', '.') }}
-                            </span>
-
-                            {{-- Botão que abre o modal --}}
-                            <button
-                                type="button"
-                                class="btn btn-success"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalVender{{ $produto->id }}"
-                            >
-                                Comprar
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-
-                {{-- MODAL --}}
-                <div class="modal fade" id="modalVender{{ $produto->id }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <h5 class="modal-title">Vender: {{ $produto->nome }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                            </div>
-
-                            <div class="modal-body">
-                                <div class="row g-3 align-items-start">
-
-                                    <div class="col-12 col-md-5">
-                                        @if (!empty($produto->imagem))
-                                            <img
-                                                src="{{ asset('storage/' . $produto->imagem) }}"
-                                                alt="Imagem do produto"
-                                                class="img-fluid rounded"
-                                            >
-                                        @else
-                                            <div class="alert alert-warning mb-0">
-                                                Este produto não possui imagem cadastrada.
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <div class="col-12 col-md-7">
-                                        <p class="mb-2"><strong>Descrição:</strong></p>
-                                        <p class="mb-3">
-                                            {{ $produto->descricao ?? 'Sem descrição cadastrada.' }}
-                                        </p>
-
-                                        <p class="mb-1"><strong>Preço:</strong> R$ {{ number_format($produto->valor, 2, ',', '.') }}</p>
-                                        <p class="mb-1"><strong>Quantidade:</strong> {{ $produto->quantidade ?? 1 }}</p>
-                                        <p class="mb-0"><strong>Status:</strong> {{ ($produto->status ?? false) ? 'em estoque' : 'fora de estoque' }}</p>
-                                    </div>
-
+                        <div class="ratio ratio-4x3 bg-dark card border-dark mb-3">
+                            @if (!empty($produto->imagem))
+                                <img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}"
+                                    class="product-img">
+                            @else
+                                <div class="d-flex align-items-center justify-content-center text-muted small">
+                                    Sem imagem
                                 </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                    Cancelar
-                                </button>
-
-                                {{-- Se você quiser confirmar a venda --}}
-                                <a href="{{ route('vendas.index', ['produto_id' => $produto->id]) }}" class="btn btn-primary">
-                                    Confirmar Compra
-                                </a>
-                            </div>
-
+                            @endif
                         </div>
+
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <h2 class="h6 mb-0 text-truncate" title="{{ $produto->nome }}">
+                                    {{ $produto->nome }}
+                                </h2>
+
+                                <span class="badge {{ $produto->status ? 'text-bg-success' : 'text-bg-danger' }}">
+                                    {{ $produto->status ? 'Em estoque' : 'Sem estoque' }}
+                                </span>
+                            </div>
+
+                            <div class="text-muted small mb-3">
+                                Quantidade: <strong>{{ $produto->quantidade ?? 0 }}</strong>
+                            </div>
+
+                            <div class="mt-auto d-flex align-items-center justify-content-between">
+                                <div class="fs-5 fw-semibold">
+                                    R$ {{ number_format($produto->valor, 2, ',', '.') }}
+                                </div>
+                                @if (!$produto->status || (int) ($produto->quantidade ?? 0) <= 0)
+
+                                    <button type="button" class="btn btn-success btn-sm px-3" disabled>
+                                        Confirmar compra
+                                    </button>
+                                @else
+                                    <a href="{{ route('vendas.confirmar', ['produto_id' => $produto->id]) }}"
+                                        class="btn btn-success btn-sm px-3">
+                                        Confirmar compra
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+            @empty
+                <div class="col-12">
+                    <div class="alert alert-info mb-0">Nenhum produto cadastrado.</div>
+                </div>
+            @endforelse
 
-            </div>
-        @empty
-            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-                <div class="alert alert-info mb-0">Nenhuma produto cadastrada.</div>
-            </div>
-        @endforelse
-
+        </div>
     </div>
-</div>
-
-</body>
-</html>
 @endsection

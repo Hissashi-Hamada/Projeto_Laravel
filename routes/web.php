@@ -47,3 +47,7 @@ Route::get('vendas', [ProdutoController::class, 'index'])
 Route::get('vendas', [ProdutoController::class, 'vendas'])
     ->name('vendas.index')
     ->middleware('auth');
+
+Route::get('vendas/confirmar/{produto_id}', [ProdutoController::class, 'confirmar'])
+    ->name('vendas.confirmar')
+    ->middleware('auth');
