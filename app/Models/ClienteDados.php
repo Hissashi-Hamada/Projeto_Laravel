@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class ClienteDados extends Model
 {
     protected $fillable = [
-        'nome',
+        'nome_cliente',
         'email',
         'telefone',
         'data_nascimento',
-        'endereco',
-        'cartao_credito',
-        'data_validade',
-        'cvv',
-        'cpf'
+        'cpf',
+        'nome_sobrenome',
+        'nome_cartao',
+        'numero_cartao',
+        'data_vencimento',
+        'codigo_seguranca',
     ];
 }

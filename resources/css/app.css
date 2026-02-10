@@ -9,3 +9,13 @@
 @theme {
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
 }
+
+#meuModal {
+    overflow-y: auto;              /* continua rolando */
+    -ms-overflow-style: none;      /* IE/Edge antigo */
+    scrollbar-width: none;         /* Firefox */
+}
+
+#meuModal::-webkit-scrollbar {     /* Chrome/Safari */
+    display: none;
+}

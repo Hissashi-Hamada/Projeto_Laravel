@@ -3,6 +3,7 @@
 @section('title', 'Confirmar Venda')
 
 @section('content')
+
     <div class="page-confirmar-venda py-5">
         <div class="container">
             <div class="row justify-content-center">
@@ -49,24 +50,102 @@
                                         </li>
                                     </ul>
 
-                                    <form method="POST" action="{{ route('vendas.confirmar', $produto->id) }}"
-                                        class="d-grid gap-2 d-sm-flex">
-                                        @csrf
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                            Finalizar Comprar
-                                        </button>
+                                    <!-- Botão para acionar o modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#meuModal">
+                                        Abrir Modal
+                                    </button>
 
-                                        <!-- Modal -->
-                                        <div>
-                                            
+                                    <!-- Estrutura do Modal -->
+                                    <div class="modal fade" id="meuModal" tabindex="-1" aria-labelledby="meuModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <div
+                                                    class="modal-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                                    <h5 class="modal-title" id="meuModalLabel">Forma de pagamento em cartão
+                                                    </h5>
+                                                    <button type="button" class="btn-close btn-close-white"
+                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="nome_cliente">Nome do cliente</label>
+                                                        <input id="nome_cliente" type="text" name="nome_cliente"
+                                                            class="form-control" value="{{ old('nome_cliente') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="email">Email</label>
+                                                        <input id="email" type="email" name="email"
+                                                            class="form-control" value="{{ old('email') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="numero_cartao">Numero de telefone</label>
+                                                        <input id="numero_cartao" type="number" name="numero_cartao"
+                                                            class="form-control" value="{{ old('numero_cartao') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="data_nascimento">Data de Nascimento</label>
+                                                        <input id="data_nascimento" type="date" name="data_nascimento"
+                                                            class="form-control" value="{{ old('data_nascimento') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="nome_sobrenome">Nome e Sobrenome</label>
+                                                        <input id="nome_sobrenome" type="text" name="nome_sobrenome"
+                                                            class="form-control" value="{{ old('nome_sobrenome') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="nome_cartao">Nome no Cartão</label>
+                                                        <input id="nome_cartao" type="text" name="nome_cartao"
+                                                            class="form-control" value="{{ old('nome_cartao') }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="numero_cartao">Numero no Cartão</label>
+                                                        <input id="numero_cartao" type="numeric" name="numero_cartao"
+                                                            class="form-control" value="{{ old('numero_cartao') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="data_vencimento">Data de Vencimento</label>
+                                                        <input id="data_vencimento" type="month" name="data_vencimento"
+                                                            class="form-control" value="{{ old('data_vencimento') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="codigo_seguranca">Código de Segurança</label>
+                                                        <input id="codigo_seguranca" type="text"
+                                                            name="codigo_seguranca" class="form-control"
+                                                            inputmode="numeric" maxlength="4"
+                                                            value="{{ old('codigo_seguranca') }}">
+                                                    </div>
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="cpf">CPF do Titular</label>
+                                                        <input id="cpf" type="text" name="cpf"
+                                                            class="form-control" inputmode="numeric" maxlength="14"
+                                                            value="{{ old('cpf') }}">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="modal-footer d-flex justify-content-end">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Fechar</button>
+                                                    <button type="button" class="btn btn-primary">Salvar</button>
+                                                </div>
+
+                                            </div>
                                         </div>
+                                    </div>
 
-                                        <a href="{{ route('vendas.index') }}"
-                                            class="btn btn-outline-secondary btn-lg flex-fill">
-                                            Voltar
-                                        </a>
-                                    </form>
 
                                     <small class="text-muted d-block mt-3">
                                         Ao confirmar, você finaliza a venda deste produto.
